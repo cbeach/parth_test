@@ -3,7 +3,28 @@ Copyright Casey Beach 2012
 
 ParthenonMQ- A very simple message queue server.
 
+This applications is written solely in Python.  It requires:
+	python twisted
+	redis
+	python redis interface
+	python-json
+
+To Run
+In separate terminals (or hosts, it shouldn't matter) start the 
+msg_host.py, subscriber.py, and publisher.py.  Publisher.py
+accepts strings from the command line and sends them to 
+the message server, which sends them to all available 
+subscribers.
 
 
+I implemented a simple 'fanout' exchange.  The main reason for this design 
+decision was ease of implementation.  A good place to expand functionality
+would be to add routing keys to the queue; i.e. subscribers will only get 
+the messages that they are interested in.
 
+A downside to the strict fanout implementation is that it puts the pressure
+of sorting the messages on the subscribers, and adds extra traffic to the 
+network.
 
+I chose json to serialize my strings because it is implemented in a wide
+variety of languages.
