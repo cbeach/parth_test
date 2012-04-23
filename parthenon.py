@@ -1,5 +1,13 @@
+#
+#   This is where most of the communication happens
+#
+#
+#
+
 from twisted.internet.protocol import Protocol, Factory
 import json, redis, time
+
+
 
 class ParthenonMQ (Protocol):
     """
@@ -10,9 +18,10 @@ class ParthenonMQ (Protocol):
 
     def dataReceived(self, data):
         """
-          *  If this is a new connection, the server will look for control
-          *  sequences specifying whether the connection is to a publisher
-          *  or subscriber.
+          If this is a new connection, the server will look for control
+          sequences specifying whether the connection is to a publisher
+          or subscriber.  If it is an acknowledgement of a received msg
+          it will pass that information along to the factory.
         """
         message = json.loads(data)
 

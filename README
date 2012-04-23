@@ -9,13 +9,21 @@ This applications is written solely in Python.  It requires:
 	python redis interface
 	python-json
 
-To Run
+To Run:
+
 In separate terminals (or hosts, it shouldn't matter) start the 
 msg_host.py, subscriber.py, and publisher.py.  Publisher.py
 accepts strings from the command line and sends them to 
 the message server, which sends them to all available 
 subscribers.
 
+Description:
+
+All messages are passed through a central server.  I have been using
+RabbitMQ for one of my projects so I am fairly familiar with this model.
+Persistence is handled by requiring acknowledgements from subscribers,
+and retrying the messages every two seconds.  After 5 attempts the 
+messages are dropped.
 
 I implemented a simple 'fanout' exchange.  The main reason for this design 
 decision was ease of implementation.  A good place to expand functionality
@@ -28,3 +36,6 @@ network.
 
 I chose json to serialize my strings because it is implemented in a wide
 variety of languages.
+
+Partial persistence is handled with Redis, depending on how the Rredis server
+is set up the queue may survive a full system crash.
